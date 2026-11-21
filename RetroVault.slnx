@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="retrovault.client/retrovault.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="RetroVault.Server/RetroVault.Server.csproj" />
+</Solution>

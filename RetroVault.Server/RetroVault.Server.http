@@ -1,0 +1,11 @@
+@RetroVault.Server_HostAddress = http://localhost:5063
+
+GET {{RetroVault.Server_HostAddress}}/openapi/v1.json
+Accept: application/json
+
+###
+
+GET {{RetroVault.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
