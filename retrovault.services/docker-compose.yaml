@@ -1,0 +1,14 @@
+services:
+  cosmos-emulator:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-latest
+    ports:
+      - "8081:8081"
+      - "8080:8080"
+      - "1234:1234"
+    volumes:
+      - type: bind
+        source: ./cosmosdb.pfx
+        target: /cosmosdb.pfx
+    env_file:
+      - cosmosdb.env
+    command: ["--protocol", "https", "--cert-path", "/cosmosdb.pfx"]
