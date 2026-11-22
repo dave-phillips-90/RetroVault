@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace RetroVault.Server.Models
 {
@@ -14,43 +14,43 @@ namespace RetroVault.Server.Models
     {
         public class UserProfile
         {
-            [JsonPropertyName("displayName")]
+            [JsonProperty("displayName")]
             public required string DisplayName { get; set; }
-            [JsonPropertyName("bio")]
+            [JsonProperty("bio")]
             public string? Bio { get; set; }
-            [JsonPropertyName("avatarUrl")]
+            [JsonProperty("avatarUrl")]
             public string? AvatarUrl { get; set; }
         }
         public class UserSettings
         {
             public class NotificationSettings
             {
-                [JsonPropertyName("emailNotifications")]
+                [JsonProperty("emailNotifications")]
                 public bool EmailNotifications { get; set; } = false;
-                [JsonPropertyName("pushNotifications")]
+                [JsonProperty("pushNotifications")]
                 public bool PushNotifications { get; set; } = false;
             }
-            [JsonPropertyName("theme")]
+            [JsonProperty("theme")]
             public Themes Theme { get; set; } = Themes.System;
-            [JsonPropertyName("notifications")]
+            [JsonProperty("notifications")]
             public NotificationSettings Notifications { get; set; } = new();
         }
 
-        [JsonPropertyName("id")]
+        [JsonProperty("id")]
         public string Id { get; init; } = Guid.NewGuid().ToString();
-        [JsonPropertyName("email")]
+        [JsonProperty("email")]
         public required string Email { get; set; }
-        [JsonPropertyName("username")]
+        [JsonProperty("username")]
         public required string Username { get; set; }
-        [JsonPropertyName("passwordHash")]
+        [JsonProperty("passwordHash")]
         public required string PasswordHash { get; set; }
-        [JsonPropertyName("passwordSalt")]
+        [JsonProperty("passwordSalt")]
         public required string PasswordSalt { get; set; }
-        [JsonPropertyName("profile")]
+        [JsonProperty("profile")]
         public required UserProfile Profile { get; set; }
-        [JsonPropertyName("settings")]
+        [JsonProperty("settings")]
         public required UserSettings Settings { get; set; }
-        [JsonPropertyName("createdAt")]
+        [JsonProperty("createdAt")]
         public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
     }
 }

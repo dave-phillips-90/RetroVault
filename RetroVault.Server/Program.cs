@@ -9,18 +9,7 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-var user = new RetroVaultUser
-{
-    Email = "test@example.com",
-    Username = "TestPlayer",
-    PasswordHash = "...",
-    PasswordSalt = "...",
-    Profile = new() { DisplayName = "Test Player" },
-    Settings = new() { Theme = Themes.Dark }
-};
-
-var service = new CosmosService();
-await service.AddUserAsync(user);
+builder.Services.AddSingleton<CosmosService>();
 
 var app = builder.Build();
 
