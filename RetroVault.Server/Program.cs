@@ -1,3 +1,6 @@
+using RetroVault.Server.Models;
+using RetroVault.Server.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+var user = new RetroVaultUser
+{
+    Email = "test@example.com",
+    Username = "TestPlayer",
+    PasswordHash = "...",
+    PasswordSalt = "...",
+    Profile = new() { DisplayName = "Test Player" },
+    Settings = new() { Theme = Themes.Dark }
+};
+
+var service = new CosmosService();
+await service.AddUserAsync(user);
 
 var app = builder.Build();
 

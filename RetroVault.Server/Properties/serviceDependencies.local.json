@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "cosmosdb1": {
+      "containerPorts": "8081:8081,8080:8080,1234:1234",
+      "secretStore": "LocalSecretsFile",
+      "containerName": "cosmosdb",
+      "containerImage": "mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:vnext-latest",
+      "resourceId": null,
+      "type": "cosmosdb.container",
+      "connectionId": "ConnectionStrings:CosmosDBConnection"
+    }
+  }
+}
