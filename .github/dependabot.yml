@@ -1,0 +1,18 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/retrovault.client"
+    schedule:
+      interval: "weekly"
+    groups:
+      development-dependencies:
+        patterns:
+          - "*"
+  - package-ecosystem: "nuget"
+    directory: "/RetroVault.Server"
+    schedule:
+      interval: "weekly"
+    groups:
+      development-dependencies:
+        patterns:
+          - "*"
