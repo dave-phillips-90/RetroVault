@@ -6,9 +6,9 @@ namespace RetroVault.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UsersController(CosmosService cosmosService) : ControllerBase
+    public class UsersController(CosmosDbService cosmosService) : ControllerBase
     {
-        private readonly CosmosService _cosmosService = cosmosService;
+        private readonly CosmosDbService _cosmosService = cosmosService;
 
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] RetroVaultUser user)
