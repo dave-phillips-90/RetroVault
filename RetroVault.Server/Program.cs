@@ -16,9 +16,9 @@ builder.Services.AddOpenApi();
 builder.Services
     .AddOptions<CosmosDbOptions>()
     .Bind(builder.Configuration.GetSection(CosmosDbOptions.SectionName))
-    .Validate(o => !string.IsNullOrWhiteSpace(o.EndpointUri), "EndpointUri is required.")
+    .Validate(o => !string.IsNullOrWhiteSpace(o.EndpointUri), "EndpointUri is required. Set via appsettings.json or by setting the COSMOSDB__ENDPOINTURI environment variable")
     .Validate(o => !string.IsNullOrWhiteSpace(o.DatabaseName), "DatabaseName is required.")
-    .Validate(o => !(o.UseEmulator && string.IsNullOrWhiteSpace(o.AccountKey)), "AccountKey is required when using the emulator.")
+    .Validate(o => !(o.Emulator.Enabled && string.IsNullOrWhiteSpace(o.Emulator.AccountKey)), "AccountKey is required when using the emulator.")
     .ValidateOnStart();
 
 // Create a Cosmos DB client singleton
@@ -31,14 +31,14 @@ builder.Services.AddSingleton<CosmosClient>(sp =>
         {
             PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
         },
-        ConnectionMode = config.UseEmulator ? ConnectionMode.Gateway : ConnectionMode.Direct,
-        LimitToEndpoint = config.UseEmulator
+        ConnectionMode = config.Emulator.Enabled ? ConnectionMode.Gateway : ConnectionMode.Direct,
+        LimitToEndpoint = config.Emulator.Enabled
     };
 
     // If use emulator is true, connect to the endpoint with the account key
-    if (config.UseEmulator)
+    if (config.Emulator.Enabled)
     {
-        return new CosmosClient(config.EndpointUri, config.AccountKey, options);
+        return new CosmosClient(config.EndpointUri, config.Emulator.AccountKey, options);
     }
 
     return new CosmosClient(config.EndpointUri, new DefaultAzureCredential(), options);
