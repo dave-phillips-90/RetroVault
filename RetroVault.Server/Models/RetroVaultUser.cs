@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace RetroVault.Server.Models
 {
@@ -10,15 +11,13 @@ namespace RetroVault.Server.Models
 
     }
     
-    public class RetroVaultUser
+    public class RetroVaultUser : CosmosDocument
     {
+        public const string DocumentType = "user";
         public class UserProfile
         {
-            [JsonProperty("displayName")]
             public required string DisplayName { get; set; }
-            [JsonProperty("bio")]
             public string? Bio { get; set; }
-            [JsonProperty("avatarUrl")]
             public string? AvatarUrl { get; set; }
         }
         public class UserSettings
@@ -30,27 +29,17 @@ namespace RetroVault.Server.Models
                 [JsonProperty("pushNotifications")]
                 public bool PushNotifications { get; set; } = false;
             }
-            [JsonProperty("theme")]
+            [JsonConverter(typeof(StringEnumConverter))]
             public Themes Theme { get; set; } = Themes.System;
-            [JsonProperty("notifications")]
             public NotificationSettings Notifications { get; set; } = new();
         }
-
-        [JsonProperty("id")]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
-        [JsonProperty("email")]
+        public override string Type => DocumentType;
+        public override string Pk => Id; // Partition key is the same as the document ID for the user
         public required string Email { get; set; }
-        [JsonProperty("username")]
         public required string Username { get; set; }
-        [JsonProperty("passwordHash")]
-        public required string PasswordHash { get; set; }
-        [JsonProperty("passwordSalt")]
-        public required string PasswordSalt { get; set; }
-        [JsonProperty("profile")]
+        public required string HashedPassword { get; set; }
         public required UserProfile Profile { get; set; }
-        [JsonProperty("settings")]
         public required UserSettings Settings { get; set; }
-        [JsonProperty("createdAt")]
         public DateTimeOffset CreatedAt { get; init; } = DateTimeOffset.UtcNow;
     }
 }
